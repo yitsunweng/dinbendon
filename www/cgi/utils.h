@@ -39,6 +39,5 @@ enum {
 	ARC4_ENCODE, ARC4_DECODE
 };
 
-char *change_ipaddr_prefix(char *content, const char *old_prefix, const char *new_prefix);
 char *trim(char *str);
 #endif // _UTILS_H

@@ -64,30 +64,3 @@ char *trim(char *str)
 
 	return str;
 }
-
-void urldecode(char *p)
-
-{
-	register i=0;
-
-	while(*(p+i))
-	{
-		if ((*p=*(p+i)) == '%')
-		{
-			*p=*(p+i+1) >= 'A' ? ((*(p+i+1) & 0XDF) - 'A') + 10 : (*(p+i+1) - '0');
-			*p=(*p) * 16;
-			*p+=*(p+i+2) >= 'A' ? ((*(p+i+2) & 0XDF) - 'A') + 10 : (*(p+i+2) - '0');
-			i+=2;
-		}
-		else if (*(p+i)=='+')
-		{
-			*p=' ';
-		}
-
-		p++;
-	}
-
-	*p='\0';
-}
-
-
