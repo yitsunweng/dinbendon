@@ -8,12 +8,11 @@
 #include "cgilib.h"
 #include "api.h"
 
-int process_result_set2(MYSQL *mysql, MYSQL_RES *result, int type){
+int process_result_set(MYSQL *mysql, MYSQL_RES *result){
 	MYSQL_ROW row;
 
 	row = mysql_fetch_row(result);
 
-	if (type == INFO){
 		int first_data = 0;
 		do{
 			if (!row){
@@ -23,23 +22,17 @@ int process_result_set2(MYSQL *mysql, MYSQL_RES *result, int type){
 			}
 			unsigned long *lengths = mysql_fetch_lengths(result);
 			if (first_data != 0)	fprintf(stdout, ",");
-			fprintf(stdout, "\n\t\t{\"uid\":\"%s\", \"time\":\"%s\", \"wanif\":\"%s\", "
-					"\"ip\":\"%s\", \"tx\":\"%s\", \"rx\":\"%s\"}",
+			fprintf(stdout, "\n\t\t{\"timestamp\":\"%s\", \"user\":\"%s\", \"item\":\"%s\", \"price\":\"%s\", "
+					"\"quantity\":\"%s\", \"sugar\":\"%s\",	\"ice\":\"%s\", \"brandshop\":\"%s\", \"note\":\"%s\"}",
 					row[0] ? row[0] : "NULL", row[1] ? row[1] : "NULL", row[2] ? row[2] : "NULL",
-					row[3] ? row[3] : "NULL", row[4] ? row[4] : "NULL", row[5] ? row[5] : "NULL");
+					row[3] ? row[3] : "NULL", row[4] ? row[4] : "NULL", row[5] ? row[5] : "NULL",
+					row[6] ? row[6] : "NULL", row[7] ? row[7] : "NULL", row[8] ? row[8] : "NULL");
 			first_data = 1;
 		} while (row = mysql_fetch_row(result));
-	}
-	else if(type == SUM){
-		do {
-			unsigned long *lengths = mysql_fetch_lengths(result);
-			fprintf(stdout, ",\n\t\t{\"tx_sum\":\"%s\", \"rx_sum\":\"%s\"}", row[0] ? row[0] : "NULL", row[1] ? row[1] : "NULL");
-		} while (row = mysql_fetch_row(result));
-	}
 	return SUCCESS;
 }
 
-int no_result_or_error2(MYSQL *mysql){
+int no_result_or_error(MYSQL *mysql){
 	if (mysql_field_count(mysql) == 0){
 		DEBUGP("%lld rows affected\n", mysql_affected_rows(mysql));
 	}
@@ -49,44 +42,49 @@ int no_result_or_error2(MYSQL *mysql){
 	return 1;
 }
 
-int get_result2(MYSQL *mysql, MYSQL_RES *result, int state, int type){
+int get_result(MYSQL *mysql, MYSQL_RES *result, int state){
 	do {
 		result = mysql_store_result(mysql);
 		if (result) {
-			if (process_result_set2(mysql, result, type) == NO_DATA){
+			if (process_result_set(mysql, result) == NO_DATA){
 				mysql_free_result(result);
 				return FAIL;
 			}
 			mysql_free_result(result);
 		}
-		else if (no_result_or_error2(mysql) == 1)	break;
+		else if (no_result_or_error(mysql) == 1)	break;
 		state = mysql_next_result(mysql);
 	} while (state == 0);
 	return SUCCESS;
 }
 
-int get_info2(MYSQL *mysql, MYSQL_RES *result, char* condition){
+int insert(MYSQL *mysql, MYSQL_RES *result, char* condition){
+	char cmd[1024];
+	int state;
+	int len = snprintf(cmd, sizeof(cmd), "set name 'utf8';");
+	mysql_real_query(mysql, cmd, len);
+	len = snprintf(cmd, sizeof(cmd),
+		"INSERT INTO `order`(user, item, price, quantity, sugar, ice, brandshop, note) "
+		"VALUES (%s);", condition);
+	if (state = mysql_real_query(mysql, cmd, len)){
+		DEBUGP("[%s]\n", cmd);
+		DEBUGP("SQL error: %s\n", mysql_error(mysql));
+		fprintf(stdout, "],\n\t\"result\" : \"%s\"\n}", mysql_error(mysql));
+		return FAIL;
+	}
+	return SUCCESS;
+}
+
+int get_table(MYSQL *mysql, MYSQL_RES *result){
 	char cmd[512];
 	int state;
-	int len = snprintf(cmd, sizeof(cmd),
-		"SELECT client_datasession.user_id, client_datasession.timestamp, interface, ip_addr, client_tx, client_rx %s", condition);
+	int len = snprintf(cmd, sizeof(cmd), "SELECT timestamp, user, item, price, quantity, sugar, ice, brandshop, note FROM `order` WHERE 1;");
 	if (state = mysql_real_query(mysql, cmd, len)){
 		DEBUGP("SQL error: %s\n", mysql_error(mysql));
 		fprintf(stdout, "],\n\t\"result\" : \"%s\"\n}", mysql_error(mysql));
 		return FAIL;
 	}
-	return get_result2(mysql, result, state, INFO);
-}
-
-int get_sum2(MYSQL *mysql, MYSQL_RES *result, char* condition){
-	char cmd[512];
-	int state;
-	int len = snprintf(cmd, sizeof(cmd), "SELECT SUM(client_tx),SUM(client_rx) %s", condition);
-	if (state = mysql_real_query(mysql, cmd, len)){
-		DEBUGP("SQL error: %s\n", mysql_error(mysql));
-		return FAIL;
-	}
-	return get_result2(mysql, result, state, SUM);
+	return get_result(mysql, result, state);
 }
 
 int order(const char *item, const char *user, const char *quantity, const char *sugar, const char *ice, const char *shop, const char *note){
@@ -109,19 +107,11 @@ int order(const char *item, const char *user, const char *quantity, const char *
 		fprintf(stdout, "],\n\t\"result\" : \"Query failed!\"\n}");
 		goto close_end;
 	}
+	
+	snprintf(condition, sizeof(condition), "'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'", user, item, "150", quantity, sugar, ice, shop, note);
 
-	memset(condition, 0, sizeof(condition));
-	snprintf(condition, sizeof(condition),
-		"FROM heartbeat, client_datasession, user WHERE "
-		"heartbeat.id = heartbeat_id AND "
-		"user.user = '%s' AND "
-		"client_datasession.user_id = user.user_id AND "
-		"client_datasession.timestamp >= '%s 00:00:00' AND "
-		"client_datasession.timestamp <= '%s 23:59:59';",
-		user, ice, sugar);
-
-	if (get_info2(mysql, result, condition) == FAIL)	goto close_end;
-	if (get_sum2(mysql, result, condition) == FAIL)	goto close_end;
+	if (insert(mysql, result, condition) == FAIL)	goto close_end;
+	if (get_table(mysql, result) == FAIL)	goto close_end;
 
 	fprintf(stdout, "],\n\t\"result\" : \"success\"\n}");
 	return SUCCESS;

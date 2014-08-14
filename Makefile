@@ -13,7 +13,7 @@ LDFLAGS += -ljansson -L$(HOST_BUILD_DIR)/lib
 # OUT_DIR=server 
 CGIEXT = cgi
 CGIFILE = ./www/cgi
-OBJS = utils.o cgilib.o bill.o order.o
+OBJS = utils.o cgilib.o order.o
 CGI = $(CGIFILE)/api
 # BIN_DIR = ./cgi/
 
@@ -29,7 +29,6 @@ $(CGI):
 	$(CC) $(CFLAGS) -o $@.$(CGIEXT) $@.c $(OBJS) $(LDFLAGS)
 	mv ./utils.o $(CGIFILE)/
 	mv ./cgilib.o $(CGIFILE)/
-	mv ./bill.o $(CGIFILE)/
 	mv ./order.o $(CGIFILE)/
 
 clean:

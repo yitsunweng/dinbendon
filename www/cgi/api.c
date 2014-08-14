@@ -34,7 +34,6 @@
 #include "cgilib.h"
 #include "jansson.h"
 #include "api.h"
-#include "bill.h"
 #include "order.h"
 
 int main(){
@@ -62,38 +61,13 @@ int main(){
 	init_cgi(query);
 	strcpy(page, get_cgi((char*)"page"));
 
-	if (strcmp(page, "bill") == 0)
-	{
-		DEBUGP("Fuckin' bill\n");
-		json_t *account=NULL, *date_begin=NULL, *date_end=NULL;
-
-		if(!(json = json_loads(post_payload, 0 , &error)))	DEBUGP("json_loads did not detect JSON payload\n");
-
-		account = json_object_get(json, "account");
-		if(!json_is_string(account))	DEBUGP("account is not string.[%s]\n", json_string_value(account));
-		date_begin = json_object_get(json, "date_begin");
-		if(!json_is_string(date_begin))	DEBUGP("date_begin is not string.\n");
-		date_end = json_object_get(json, "date_end");
-		if(!json_is_string(date_end))	DEBUGP("date_end is not string.\n");
-		DEBUGP("USER: [%s], DATE: [%s] ~ [%s]\n", json_string_value(account), json_string_value(date_begin), json_string_value(date_end));
-
-		fprintf(stdout, "Content-Type: application/json; charset=utf-8\r\n\r\n");
-
-		if (bill(json_string_value(account), json_string_value(date_begin), json_string_value(date_end)) == SUCCESS){
-			DEBUGP("Query bill success!\n");
-		}
-		else{
-			DEBUGP("Query bill fail!\n");
-		}
-		return 0;
-	}
-	else if (strcmp(page, "order") == 0)
+	if (strcmp(page, "order") == 0)
 	{
 		json_t *item = NULL, *user = NULL, *quantity = NULL, *sugar = NULL, *ice = NULL, *shop = NULL, *note = NULL;
 
 		if(!(json = json_loads(post_payload, 0 , &error)))	DEBUGP("json_loads did not detect JSON payload\n");
 
-		fprintf(stdout, "Content-Type: application/json; charset=utf-8\r\n\r\n");
+		fprintf(stdout, "Content-Type: application/json; charset=UTF-8\r\n\r\n");
 		
 		item = json_object_get(json, "item");
 		if(!json_is_string(item))	DEBUGP("item is not string.[%s]\n", json_string_value(item));

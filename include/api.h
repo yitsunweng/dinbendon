@@ -1,7 +1,7 @@
 #define DEBUGMSG 1
 #define MAXCHARSIZE 256
 #if DEBUGMSG
-	#define DEBUGP(fmt,arg...) {FILE *fp=fopen("/tmp/karma_server_api.log","a");fprintf(fp,"(%d/%s): "fmt,__LINE__,__FILE__,##arg);fclose(fp);}
+	#define DEBUGP(fmt,arg...) {FILE *fp=fopen("/tmp/order_server_api.log","a");fprintf(fp,"(%d/%s): "fmt,__LINE__,__FILE__,##arg);fclose(fp);}
 #else
 	#define DEBUGP(fmt,arg...)
 #endif

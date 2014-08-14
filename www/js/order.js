@@ -31,7 +31,7 @@
 		$('#result_tbl').html("");
 
 		// Each row data
-		for (i = 0; i < data_len - 1; i += 1) {
+		for (i = 0; i < data_len; i += 1) {
 			trTemplate = _.template(
 				$('#tr-template').html(),
 				{
@@ -47,13 +47,13 @@
 			$('#result_tbl').append(trResultTemplate);
 		}
 		else{
-			trSumTemplate = _.template($('#tr-sum-template').html(), {'data': eason.data[data_len - 1]});
+			trSumTemplate = _.template($('#tr-sum-template').html(), {});
 			$('#result_tbl').append(trSumTemplate);
 		}
 
 		$("#query_tbl").tablesorter({
 			theme : 'blue',
-			sortList : [[1, 0]],
+			sortList : [[0, 0]],
 
 			headerTemplate : '{content}{icon}',
 
@@ -87,7 +87,7 @@
 			url: '/order/post/',
 			type: 'POST',
 			data: JSON.stringify(ajaxData),
-			contentType: 'application/json; charset=utf-8',
+			contentType: 'application/json; charset=UTF-8',
 			dataType: 'json',
 			success: show_order
 		});
@@ -125,28 +125,22 @@
 			message: 'This value is not valid',
 			submitButtons: 'button[type="submit"]',
 			fields: {
-				account: {
-					message: 'The email is not valid',
+				item: {
 					validators: {
 						notEmpty: {
-							message: 'The email is required and cannot be empty'
-						},
+							message: 'The value is required and cannot be empty'},
 					}
 				},
-				date_begin: {
+				user: {
 					validators: {
-						date: {
-							format: 'YYYY-MM-DD',
-							message: 'The value is not a valid date'
-						}
+						notEmpty: {
+							message: 'The value is required and cannot be empty'},
 					}
 				},
-				date_end: {
+				quantity: {
 					validators: {
-						date: {
-							format: 'YYYY-MM-DD',
-							message: 'The value is not a valid date'
-						}
+						notEmpty: {
+							message: 'The value is required and cannot be empty'},
 					}
 				},
 			}
