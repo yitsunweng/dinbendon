@@ -65,20 +65,6 @@ char *trim(char *str)
 	return str;
 }
 
-int mkfile(const char *filename)
-{
-	FILE *fp;
-	fp = fopen(filename, "w");
-
-	if(fp)
-	{
-		fclose(fp);
-		return 1;
-	}
-
-	return 0;
-}
-
 char hextochar(unsigned char in)
 {
 	return (in<10)?in+48 : in+55;
