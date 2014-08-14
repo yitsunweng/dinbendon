@@ -65,11 +65,6 @@ char *trim(char *str)
 	return str;
 }
 
-char hextochar(unsigned char in)
-{
-	return (in<10)?in+48 : in+55;
-}
-
 unsigned char chartohex(unsigned char in)
 {
 	in = toupper(in);
@@ -80,60 +75,6 @@ unsigned char chartohex(unsigned char in)
 		in = in - '0';
 
 	return in;
-}
-
-unsigned char* strtohex(const char *in, int *len)
-{
-	unsigned char *out;
-	int out_size = 0;
-	int i, j;
-	out_size = strlen(in) / 2;
-
-	if(out_size == 0)
-		return NULL;
-
-	out =(unsigned char *)malloc(sizeof(unsigned char) * out_size + 1);
-	memset(out, 0, out_size + 1);
-
-	for(i=0; i<out_size; i++)
-	{
-		j = 2 * i;
-		out[i] = chartohex(in[j]);
-		out[i] = out[i] << 4;
-		out[i] = out[i] + chartohex(in[j+1]);
-	}
-
-	*len = out_size;
-	return out;
-}
-
-char *hextostr(unsigned char *in, int in_size)
-{
-	unsigned char low = 0x0F, c;
-	char *out;
-	int i, size;
-
-	if(!in_size)
-		return NULL;
-
-	size = in_size * 2 + 1;
-	out = (char*)malloc(sizeof(char) * size);
-	memset(out, 0, size);
-
-	for(i=0; i<in_size; i++)
-	{
-		c = in[i] >> 4;
-
-		if(c < 16)
-			*(out + 2*i) = hextochar(c);
-
-		c = in[i] & low;
-
-		if(c < 16)
-			*(out + 2*i + 1) = hextochar(c);
-	}
-
-	return out;
 }
 
 int set_file_content(const char *file, const char *content)

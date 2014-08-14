@@ -42,8 +42,6 @@ enum {
 int set_file_content(const char *file, const char *content);
 char *change_ipaddr_prefix(char *content, const char *old_prefix, const char *new_prefix);
 char *trim(char *str);
-char *hextostr(unsigned char *in, int in_size);
-unsigned char* strtohex(const char *in, int *len);
 int uptime_format(unsigned long uptime, char *buffer, unsigned int buffer_size);
 void sys_reboot();
 #endif // _UTILS_H
