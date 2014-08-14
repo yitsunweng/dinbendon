@@ -65,64 +65,6 @@ char *trim(char *str)
 	return str;
 }
 
-int get_interface_info(char *interface, unsigned char *mac, char *ip, char *mask)
-{
-	int fd;
-	struct ifreq ifr;
-	struct sockaddr_in *addr;
-	memset(&ifr, 0, sizeof(struct ifreq));
-
-	if((fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) >= 0)
-	{
-		ifr.ifr_addr.sa_family = AF_INET;
-		strcpy(ifr.ifr_name, interface);
-
-		if(mac)
-		{
-			if (ioctl(fd, SIOCGIFHWADDR, &ifr) == 0)
-				memcpy(mac, ifr.ifr_hwaddr.sa_data, 6);
-			else
-			{
-				close(fd);
-				return 0;
-			}
-		}
-
-		if(ip)
-		{
-			if(ioctl(fd, SIOCGIFADDR, &ifr) == 0)
-			{
-				addr = (struct sockaddr_in *) &ifr.ifr_addr;
-				strcpy(ip, (const char *)(inet_ntoa(addr->sin_addr)));
-			}
-			else
-			{
-				close(fd);
-				return 0;
-			}
-		}
-
-		if(mask)
-		{
-			if(ioctl(fd, SIOCGIFNETMASK, &ifr) == 0)
-			{
-				addr = (struct sockaddr_in *) &ifr.ifr_netmask;
-				strcpy(mask, (const char *)(inet_ntoa( addr->sin_addr)));
-			}
-			else
-			{
-				close(fd);
-				return 0;
-			}
-		}
-	}
-	else
-		return 0;
-
-	close(fd);
-	return 1;
-}
-
 int mkfile(const char *filename)
 {
 	FILE *fp;
@@ -206,42 +148,6 @@ char *hextostr(unsigned char *in, int in_size)
 	}
 
 	return out;
-}
-
-int conn_from_lan(char* interface, char *remote_ip)
-{
-	char lan_ip[16], netmask[16];
-	get_interface_info(interface, NULL, lan_ip, netmask);
-
-	if(((inet_addr(lan_ip) ^ inet_addr(remote_ip)) & inet_addr(netmask)) == 0)
-		return 1;
-
-	return 0;
-}
-
-char *get_file_content(const char *file, char *content, int len)
-{
-	FILE *fp;
-	bzero(content, len);
-
-	if(!(fp = fopen(file, "r")))
-		return content;
-
-	while(fgets(content, len, fp))
-	{
-		trim(content);
-
-		if(strncmp(content, VERSION_TAG, strlen(VERSION_TAG)) == 0)
-		{
-			bzero(content, len);
-			continue;
-		}
-		else
-			break;
-	}
-
-	fclose(fp);
-	return content;
 }
 
 int set_file_content(const char *file, const char *content)

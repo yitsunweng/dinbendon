@@ -39,12 +39,9 @@ enum {
 	ARC4_ENCODE, ARC4_DECODE
 };
 
-char *get_file_content(const char *file, char *content, int len);
 int set_file_content(const char *file, const char *content);
 char *change_ipaddr_prefix(char *content, const char *old_prefix, const char *new_prefix);
 char *trim(char *str);
-int get_interface_info(char *interface, unsigned char *mac, char *ip, char *mask);
-int conn_from_lan(char* interface, char *remote_ip);
 void get_sw_list(int flag);
 int mkfile(const char *filename);
 char *hextostr(unsigned char *in, int in_size);
