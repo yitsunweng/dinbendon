@@ -65,25 +65,6 @@ char *trim(char *str)
 	return str;
 }
 
-int uptime_format(unsigned long uptime, char *buffer, unsigned int buffer_size)
-{
-	unsigned long h = 0, m = 0, s = 0;
-
-	if(buffer == NULL)
-		return 0;
-
-	h = uptime / 3600;
-	m = (uptime / 60) - (h * 60);
-	s = uptime % 60;
-	snprintf(buffer, buffer_size, "%lu:%02lu:%02lu", h, m, s);
-	return 1;
-}
-
-void sys_reboot()
-{
-	//printf("[System Reboot] : %s %s %d \n", __FILE__, __FUNCTION__, __LINE__);
-	system("reboot");
-}
 void urldecode(char *p)
 
 {

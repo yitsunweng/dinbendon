@@ -41,6 +41,4 @@ enum {
 
 char *change_ipaddr_prefix(char *content, const char *old_prefix, const char *new_prefix);
 char *trim(char *str);
-int uptime_format(unsigned long uptime, char *buffer, unsigned int buffer_size);
-void sys_reboot();
 #endif // _UTILS_H
