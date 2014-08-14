@@ -39,7 +39,6 @@ enum {
 	ARC4_ENCODE, ARC4_DECODE
 };
 
-int set_file_content(const char *file, const char *content);
 char *change_ipaddr_prefix(char *content, const char *old_prefix, const char *new_prefix);
 char *trim(char *str);
 int uptime_format(unsigned long uptime, char *buffer, unsigned int buffer_size);

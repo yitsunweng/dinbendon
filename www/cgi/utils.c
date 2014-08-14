@@ -65,49 +65,6 @@ char *trim(char *str)
 	return str;
 }
 
-unsigned char chartohex(unsigned char in)
-{
-	in = toupper(in);
-
-	if((in >= 'A') && (in <= 'F'))
-		in = in - 'A' + 10;
-	else if((in >= '0') && (in <= '9'))
-		in = in - '0';
-
-	return in;
-}
-
-int set_file_content(const char *file, const char *content)
-{
-	char *temp;
-	FILE *fp;
-	temp = calloc(1, sizeof(char) * BSIZE);
-
-	if(!temp)
-		return 0;
-
-	if(NULL != (fp = fopen(file, "r")))
-	{
-		fgets(temp, BSIZE, fp);
-		fclose(fp);
-	}
-
-	if(!(fp = fopen(file, "w")))
-	{
-		free(temp);
-		return 0;
-	}
-
-	if(strncmp(temp, VERSION_TAG, strlen(VERSION_TAG)) == 0)
-		fputs(temp, fp);
-
-	fputs(content, fp);
-	fputc('\n', fp);
-	free(temp);
-	fclose(fp);
-	return 1;
-}
-
 int uptime_format(unsigned long uptime, char *buffer, unsigned int buffer_size)
 {
 	unsigned long h = 0, m = 0, s = 0;
