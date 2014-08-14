@@ -195,62 +195,6 @@ int uptime_format(unsigned long uptime, char *buffer, unsigned int buffer_size)
 	return 1;
 }
 
-void get_sw_list(int flag)
-{
-	char buffer[256], *ptr, *ptr2;
-	char *sw_name, *sw_version;
-	FILE *read_fp = NULL;
-	unsigned int find_one = 0;
-	char *sp = " - ";
-
-	switch(flag)
-	{
-		case IPKG_LIST:
-			unlink(IPKG_PACKAGES_LIST_DEVICESW);
-			unlink(IPKG_PACKAGES_LIST_OPENWMX);
-			sprintf(buffer, "ipkg -f %s update > /dev/null", IPKG_PATH);
-			system(buffer);
-			sprintf(buffer, "ipkg -f %s list", IPKG_PATH);
-			read_fp = popen(buffer, "r");
-			break;
-		case IPKG_INSTALLED:
-			sprintf(buffer, "ipkg -f %s list_installed", IPKG_PATH);
-			read_fp = popen(buffer, "r");
-			break;
-		default:
-			break;
-	}
-
-	if(read_fp != NULL)
-	{
-		bzero(buffer, sizeof(buffer));
-		find_one = 0;
-
-		while(fgets(buffer, sizeof(buffer), read_fp))
-		{
-			if(NULL == (ptr = strstr(buffer, sp)))
-				break;
-
-			if(find_one)
-				printf(";");
-
-			*ptr = 0;
-			sw_name = buffer;
-			sw_version = ptr + strlen(sp);
-			ptr2 = strstr(sw_version, sp);
-
-			if(ptr2 != NULL)
-				*ptr2 = 0;
-
-			printf("%s:%s", trim(sw_name), trim(sw_version));
-			find_one = 1;
-			bzero(buffer, sizeof(buffer));
-		}
-
-		pclose(read_fp);
-	}
-}
-
 void sys_reboot()
 {
 	//printf("[System Reboot] : %s %s %d \n", __FILE__, __FUNCTION__, __LINE__);

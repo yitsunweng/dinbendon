@@ -42,7 +42,6 @@ enum {
 int set_file_content(const char *file, const char *content);
 char *change_ipaddr_prefix(char *content, const char *old_prefix, const char *new_prefix);
 char *trim(char *str);
-void get_sw_list(int flag);
 int mkfile(const char *filename);
 char *hextostr(unsigned char *in, int in_size);
 unsigned char* strtohex(const char *in, int *len);
