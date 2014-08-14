@@ -1,0 +1,27 @@
+.form input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form input[type="password"] {
+  margin-bottom: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form .forget-password-link {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  float: left;
+}
+
+.form .signup-link {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  float: right;
+}
+
+.loading-icon {
+  display: block;
+  margin: auto;
+}
