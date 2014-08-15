@@ -61,9 +61,21 @@ int main(){
 	init_cgi(query);
 	strcpy(page, get_cgi((char*)"page"));
 
-	if (strcmp(page, "order") == 0)
+	if (strcmp(page, "orderd") == 0)
 	{
-		json_t *item = NULL, *user = NULL, *quantity = NULL, *sugar = NULL, *ice = NULL, *shop = NULL, *note = NULL;
+		fprintf(stdout, "Content-Type: application/json; charset=UTF-8\r\n\r\n");
+		
+		if (orderd() == SUCCESS){
+			DEBUGP("query success\n");
+		}
+		else{
+			DEBUGP("query failed\n");
+		}
+		return 0;
+	}
+	else if (strcmp(page, "order") == 0)
+	{
+		json_t *item = NULL, *user = NULL, *price = NULL, *quantity = NULL, *sugar = NULL, *ice = NULL, *note = NULL;
 
 		if(!(json = json_loads(post_payload, 0 , &error)))	DEBUGP("json_loads did not detect JSON payload\n");
 
@@ -75,6 +87,9 @@ int main(){
 		user = json_object_get(json, "user");
 		if(!json_is_string(user))	DEBUGP("user is not string.[%s]\n", json_string_value(user));
 		
+		price = json_object_get(json, "price");
+		if(!json_is_string(price))	DEBUGP("price is not string.[%s]\n", json_string_value(quantity));
+		
 		quantity = json_object_get(json, "quantity");
 		if(!json_is_string(quantity))	DEBUGP("quantity is not string.[%s]\n", json_string_value(quantity));
 		
@@ -84,18 +99,15 @@ int main(){
 		ice = json_object_get(json, "ice");
 		if(!json_is_string(ice))	DEBUGP("ice is not string.[%s]\n", json_string_value(ice));
 		
-		shop = json_object_get(json, "shop");
-		if(!json_is_string(shop))	DEBUGP("shop is not string.[%s]\n", json_string_value(shop));
-		
 		note = json_object_get(json, "note");
 		if(!json_is_string(note))	DEBUGP("note is not string.[%s]\n", json_string_value(note));
 
-		if (order(json_string_value(item), json_string_value(user), json_string_value(quantity),
-			json_string_value(sugar), json_string_value(ice), json_string_value(shop), json_string_value(note)) == SUCCESS){
-			DEBUGP("Order success!\n");
+		if (order(json_string_value(item), json_string_value(user), json_string_value(price), json_string_value(quantity),
+			json_string_value(sugar), json_string_value(ice), json_string_value(note)) == SUCCESS){
+			DEBUGP("Insert success!\n");
 		}
 		else{
-			DEBUGP("Order fail!\n");
+			DEBUGP("Insert fail!\n");
 		}
 		return 0;
 		

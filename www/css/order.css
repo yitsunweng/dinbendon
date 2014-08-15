@@ -3,14 +3,15 @@
 .Tbl td	{border:0px solid darkblue;text-align:center;padding:0px 10px!important;}
 .Tbl tr {border-bottom:1px solid #DFF7F8;}
 
-.form		{max-width: 1000px;}
+.form		{max-width: 890px;}
 
 .Brst {border-top:0px!important;border-bottom:0px!important;font-weight:bolder;line-height:34px!important}
 
 @media(min-width:768px) {
-	.fix-user-width		{height: 80px;width: 100%;}
-	.fix-data-width		{height: 80px;width: 14%;}
-	.fix-btn-width		{height: 80px;width: 13%;}
+	.fix-user-width		{height: 80px;width:21%;}
+	.fix-data-width		{height: 80px;width:13%;}
+	.fix-small-width		{height: 80px;width:8%;}
+	.fix-btn-width		{height: 80px;width:9%;}
 }
 /*
 vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
