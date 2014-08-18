@@ -19,7 +19,7 @@
 			dataType: 'json',
 			success: query
 		});
-	
+
 	}
 
 	function render() {
@@ -31,7 +31,7 @@
 	}
 
 	function query(eason){
-		var i, data_len, trTemplate, tableTemplate,	$queryTbl, queryTemplate;
+		var i, data_len, trTemplate, tableTemplate,	$queryTbl, queryTemplate, trSumTemplate;
 		data_len = eason.data.length;
 		$queryTbl = $('#query_div');
 		tableTemplate = _.template($('#table-template').html());
@@ -39,16 +39,21 @@
 		$('#result_tbl').html("");
 
 		// Each row data
-		for (i = 0; i < data_len; i += 1) {
+		for (i = 0; i < data_len-1; i += 1) {
 			trTemplate = _.template($('#tr-template').html(), {'data': eason.data[i]});
 			$queryTbl.find('tbody').append(trTemplate);
 		}
+
 		// Query Result
 		if (eason.result !== "success"){
 			queryTemplate = _.template($('#query-result-template').html(), {'data':eason.result});
 			$('#result_tbl').append(queryTemplate);
 		}
-		
+		else{
+			trSumTemplate = _.template($('#tr-sum-template').html(), {'price': eason.data[data_len - 1], 'num': data_len-1});
+			$('#result_tbl').append(trSumTemplate);
+		}
+
 		$("#query_tbl").tablesorter({
 			theme : 'blue',
 			sortList : [[0, 0]],
@@ -67,7 +72,7 @@
 		$('#submit').removeAttr('disabled');
 
 		prequery();
-		
+
 		// Insert Result
 		if (insert.result == "Fail")
 			alert('Insert ' + insert.result);

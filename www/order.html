@@ -1,169 +1,177 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>DinBenDon</title>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/vendor/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="/vendor/bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css">
-<link rel="stylesheet" href="/vendor/pickadate/3.5.3/css/classic.css">
-<link rel="stylesheet" href="/vendor/pickadate/3.5.3/css/classic.date.css">
-<link rel="stylesheet" href="/vendor/jquery/1.11.1/jquery.tablesorter.min.js">
-<link rel="stylesheet" href="/vendor/jquery/1.11.1/theme.blue.css">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/order.css">
-</head>
-<body>
-	<div class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Gemtek</a>
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="#">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
-					<li class="active"><a href="order.html">DinBenDon</a></li>
-					<!--
-					<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li class="dropdown-header">Nav header</li>
-						<li><a href="#">Separated link</a></li>
-						<li><a href="#">One more separated link</a></li>
+	<head>
+		<title>DinBenDon</title>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/vendor/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/vendor/bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css">
+		<link rel="stylesheet" href="/vendor/pickadate/3.5.3/css/classic.css">
+		<link rel="stylesheet" href="/vendor/pickadate/3.5.3/css/classic.date.css">
+		<link rel="stylesheet" href="/vendor/jquery/1.11.1/jquery.tablesorter.min.js">
+		<link rel="stylesheet" href="/vendor/jquery/1.11.1/theme.blue.css">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/order.css">
+	</head>
+	<body>
+		<div class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Gemtek</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#">Home</a></li>
+						<li><a href="#about">About</a></li>
+						<li><a href="#contact">Contact</a></li>
+						<li class="active"><a href="order.html">DinBenDon</a></li>
+						<!--
+						<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li class="dropdown-header">Nav header</li>
+							<li><a href="#">Separated link</a></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul>
+						</li>
+						-->
 					</ul>
-					</li>
-					-->
-				</ul>
-			</div><!--/.nav-collapse -->
+				</div><!--/.nav-collapse -->
+			</div>
 		</div>
-	</div>
 
-	<div class="container" style="margin-top:60px;">
-		<form id="form" class="form form-inline" role="form"></form>
-	</div> <!-- /container -->
+		<div class="container" style="margin-top:60px;">
+			<form id="form" class="form form-inline" role="form"></form>
+		</div> <!-- /container -->
 
-	<footer class="footer">
-		<div class="container clearfix">
-			<p class="text-center">
-			Copyright © Gemtek 2014
-			</p>
-		</div>
-	</footer>
+		<footer class="footer">
+			<div class="container clearfix">
+				<p class="text-center">
+				Copyright © Gemtek 2014
+				</p>
+			</div>
+		</footer>
 
-<script type="text/template" id="form-template">
-	<h2 class="form-heading">Query Your DinBenDon</h2>
-	<div class="form-group fix-data-width">
-		<input id="user" type="text" name="user" style="width:100%;" class="form-control" placeholder="大名" required>
-	</div>
-	<div class="form-group fix-user-width">
-		<input id="item" type="text" name="item" style="width:100%;" class="form-control" placeholder="項目" required>
-	</div>
-	<div class="form-group fix-small-width">
-		<input id="price" type="text" name="price" style="width:100%;" class="form-control" placeholder="單價" required>
-	</div>
-	<div class="form-group fix-small-width">
-		<input id="quantity" type="text" name="quantity" style="width:100%;" class="form-control" placeholder="數量" required>
-	</div>
-	<div class="form-group fix-small-width">
-		<select id="sugar" type="text" name="sugar" style="width:100%;" class="form-control">
-      <optgroup label="甜度">
-        <option selected>正</option>
-        <option>少</option>
-        <option>半</option>
-        <option>微</option>
-        <option>無</option>
-      </optgroup>
-		</select>
-	</div>
-	<div class="form-group fix-small-width">
-		<select id="ice" type="text" name="ice" style="width:100%;" class="form-control">
-      <optgroup label="溫度">
-			  <option selected>正</option>
-  			<option>少</option>
-  			<option>去</option>
-  			<option>溫</option>
-  			<option>熱</option>
-      </optgroup>
-		</select>
-	</div>
-	<div class="form-group fix-user-width">
-		<input id="note" type="text" name="note" style="width:100%;" class="form-control" placeholder="備註">
-	</div>
-	<div class="form-group fix-btn-width">
-		<button id="submit" class="btn btn-lg btn-primary btn-block" style="width:100%;" type="submit" disabled>Submit</button>
-	</div>
-	<div id="query_div" class="table-responsive"></div>
-	<div class="table-responsive">
-		<table id="result_tbl" class="table Tbl"></table>
-	</div>
-</script>
+		<script type="text/template" id="form-template">
+			<h2 class="form-heading">Query Your DinBenDon</h2>
+			<div class="form-group fix-data-width">
+				<input id="user" type="text" name="user" style="width:100%;" class="form-control" placeholder="大名" required>
+			</div>
+			<div class="form-group fix-user-width">
+				<input id="item" type="text" name="item" style="width:100%;" class="form-control" placeholder="項目" required>
+			</div>
+			<div class="form-group fix-small-width">
+				<input id="price" type="text" name="price" style="width:100%;" class="form-control" placeholder="單價" required>
+			</div>
+			<div class="form-group fix-small-width">
+				<input id="quantity" type="text" name="quantity" style="width:100%;" class="form-control" placeholder="數量" required>
+			</div>
+			<div class="form-group fix-small-width">
+				<select id="sugar" type="text" name="sugar" style="width:100%;" class="form-control">
+					<optgroup label="甜度">
+						<option value="正常" selected>正</option>
+						<option value="少糖">少</option>
+						<option value="半糖">半</option>
+						<option value="微糖">微</option>
+						<option value="無糖">無</option>
+					</optgroup>
+				</select>
+			</div>
+			<div class="form-group fix-small-width">
+				<select id="ice" type="text" name="ice" style="width:100%;" class="form-control">
+					<optgroup label="溫度">
+						<option value="正常" selected>正</option>
+						<option value="少冰">少</option>
+						<option value="去冰">去</option>
+						<option value="溫">溫</option>
+						<option value="熱">熱</option>
+					</optgroup>
+				</select>
+			</div>
+			<div class="form-group fix-user-width">
+				<input id="note" type="text" name="note" style="width:100%;" class="form-control" placeholder="備註">
+			</div>
+			<div class="form-group fix-btn-width">
+				<button id="submit" class="btn btn-lg btn-primary btn-block" style="width:100%;" type="submit" disabled>Submit</button>
+			</div>
+			<div id="query_div" class="table-responsive"></div>
+			<div class="table-responsive">
+				<table id="result_tbl" class="table Tbl"></table>
+			</div>
+		</script>
 
-<script type="text/template" id="table-template">
-	<table id="query_tbl" class="table Tbl tablesorter">
-		<thead>
-			<tr class="active">
-				<th>時間</th>
-				<th>大名</th>
-				<th>項目</th>
-				<th>單價</th>
-				<th>數量</th>
-				<th>甜度</th>
-				<th>溫度</th>
-				<th>備註</th>
+		<script type="text/template" id="table-template">
+			<table id="query_tbl" class="table Tbl tablesorter">
+				<thead>
+					<tr class="active">
+						<th>時間</th>
+						<th>大名</th>
+						<th>項目</th>
+						<th>單價</th>
+						<th>數量</th>
+						<th>甜度</th>
+						<th>溫度</th>
+						<th>備註</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</script>
+
+		<script type="text/template" id="tr-template">
+			<tr>
+				<td><%= data.timestamp %></td>
+				<td><%= data.user %></td>
+				<td><%= data.item %></td>
+				<td><%= data.price %></td>
+				<td><%= data.quantity %></td>
+				<td><%= data.sugar %></td>
+				<td><%= data.ice %></td>
+				<td><%= data.note %></td>
 			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
-</script>
+		</script>
 
-<script type="text/template" id="tr-template">
-	<tr>
-		<td><%= data.timestamp %></td>
-		<td><%= data.user %></td>
-		<td><%= data.item %></td>
-		<td><%= data.price %></td>
-		<td><%= data.quantity %></td>
-		<td><%= data.sugar %></td>
-		<td><%= data.ice %></td>
-		<td><%= data.note %></td>
-	</tr>
-</script>
+		<script type="text/template" id="query-result-template">
+			<tr class="Brst">
+				<td class="Brst" colspan=6>
+						<strong>
+							<%= data %>
+						</strong>
+				</td>
+			</tr>
+		</script>
 
-<script type="text/template" id="query-result-template">
-	<tr class="Brst">
-		<td class="Brst" colspan=6>
-				<strong>
-					<%= data %>
-				</strong>
-		</td>
-	</tr>
-</script>
+		<script type="text/template" id="tr-sum-template">
+			<tr class="Brst">
+				<td class="Brst" colspan=6>
+					<strong>共 <%= num %> 杯，總額 $<%= price.sum %></strong>
+				</td>
+			</tr>
+		</script>
 
-<script src="/vendor/jquery/1.11.1/jquery.min.js"></script>
-<script src="/vendor/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="/vendor/underscore/1.6.0/underscore-min.js"></script>
-<script src="/vendor/bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
-<script src="/vendor/pickadate/3.5.3/js/picker.js"></script>
-<script src="/vendor/pickadate/3.5.3/js/picker.date.js"></script>
-<script src="/vendor/jquery/1.11.1/jquery.tablesorter.min.js"></script>
-<script src="/vendor/jquery/1.11.1/jquery.tablesorter.widgets.min.js"></script>
-<script src="/js/order.js"></script>
-</body>
+		<script src="/vendor/jquery/1.11.1/jquery.min.js"></script>
+		<script src="/vendor/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="/vendor/underscore/1.6.0/underscore-min.js"></script>
+		<script src="/vendor/bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
+		<script src="/vendor/pickadate/3.5.3/js/picker.js"></script>
+		<script src="/vendor/pickadate/3.5.3/js/picker.date.js"></script>
+		<script src="/vendor/jquery/1.11.1/jquery.tablesorter.min.js"></script>
+		<script src="/vendor/jquery/1.11.1/jquery.tablesorter.widgets.min.js"></script>
+		<script src="/js/order.js"></script>
+	</body>
 </html>
 <!--
-vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
+vim: set tabstop=2 noexpandtab shiftwidth=2 softtabstop=2:
 -->

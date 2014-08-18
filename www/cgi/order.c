@@ -8,11 +8,13 @@
 #include "cgilib.h"
 #include "api.h"
 
-int process_result_set(MYSQL *mysql, MYSQL_RES *result){
+int process_result_set(MYSQL *mysql, MYSQL_RES *result, int type){
 	MYSQL_ROW row;
 
 	row = mysql_fetch_row(result);
 
+	if (type == INFO)
+	{
 		int first_data = 0;
 		do{
 			if (!row){
@@ -29,6 +31,15 @@ int process_result_set(MYSQL *mysql, MYSQL_RES *result){
 					row[6] ? row[6] : "NULL", row[7] ? row[7] : "NULL");
 			first_data = 1;
 		} while (row = mysql_fetch_row(result));
+	}
+	else if (type == SUM)
+	{
+		do{
+			unsigned long *lengths = mysql_fetch_lengths(result);
+			fprintf(stdout, ",\n\t\t{\"sum\":\"%s\"}", row[0] ? row[0] : "NULL");
+		} while (row = mysql_fetch_row(result));
+	}
+
 	return SUCCESS;
 }
 
@@ -42,11 +53,11 @@ int no_result_or_error(MYSQL *mysql){
 	return 1;
 }
 
-int get_result(MYSQL *mysql, MYSQL_RES *result, int state){
+int get_result(MYSQL *mysql, MYSQL_RES *result, int state, int type){
 	do {
 		result = mysql_store_result(mysql);
 		if (result) {
-			if (process_result_set(mysql, result) == NO_DATA){
+			if (process_result_set(mysql, result, type) == NO_DATA){
 				mysql_free_result(result);
 				return FAIL;
 			}
@@ -81,7 +92,19 @@ int get_table(MYSQL *mysql, MYSQL_RES *result){
 		fprintf(stdout, "],\n\t\"result\" : \"%s\"\n}", mysql_error(mysql));
 		return FAIL;
 	}
-	return get_result(mysql, result, state);
+	return get_result(mysql, result, state, INFO);
+}
+
+int get_sum(MYSQL *mysql, MYSQL_RES *result){
+	char cmd[512];
+	int state;
+	int len = snprintf(cmd , sizeof(cmd), "SELECT SUM(price) FROM `order` WHERE 1;");
+	if (state = mysql_real_query(mysql, cmd, len)){
+		DEBUGP("SQL error: %s\n", mysql_error(mysql));
+		fprintf(stdout, "],\n\t\"result\" : \"%s\"\n}", mysql_error(mysql));
+		return FAIL;
+	}
+	return get_result(mysql, result, state, SUM);
 }
 
 int order(const char *item, const char *user, const char *price, const char *quantity, const char *sugar, const char *ice, const char *note){
@@ -141,6 +164,7 @@ int orderd(){
 	}
 	
 	if (get_table(mysql, result) == FAIL)	goto close_end;
+	if (get_sum(mysql, result) == FAIL) goto close_end;
 
 	fprintf(stdout, "],\n\t\"result\" : \"success\"\n}");
 	return SUCCESS;
