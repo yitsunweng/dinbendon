@@ -24,26 +24,26 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Gemtek</a>
+					<a class="navbar-brand" href="order.html">DinBenDon</a>
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="#">Home</a></li>
 						<li><a href="#about">About</a></li>
 						<li><a href="#contact">Contact</a></li>
-						<li class="active"><a href="order.html">DinBenDon</a></li>
+						<li class="active"><a href="order.html">CoCo</a></li>
 						<!--
 						<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li class="dropdown-header">Nav header</li>
-							<li><a href="#">Separated link</a></li>
-							<li><a href="#">One more separated link</a></li>
-						</ul>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li class="divider"></li>
+								<li class="dropdown-header">Nav header</li>
+								<li><a href="#">Separated link</a></li>
+								<li><a href="#">One more separated link</a></li>
+							</ul>
 						</li>
 						-->
 					</ul>
@@ -56,11 +56,7 @@
 		</div> <!-- /container -->
 
 		<footer class="footer">
-			<div class="container clearfix">
-				<p class="text-center">
-				Copyright © Gemtek 2014
-				</p>
-			</div>
+			<div class="container clearfix"><p class="text-center">Copyright © DinBenDon 2014</p></div>
 		</footer>
 
 		<script type="text/template" id="form-template">
@@ -105,6 +101,11 @@
 			<div class="form-group fix-btn-width">
 				<button id="submit" class="btn btn-lg btn-primary btn-block" style="width:100%;" type="submit" disabled>Submit</button>
 			</div>
+			<div class="form-group" width="100%">
+				<a href="http://www.coco-tea.com/ezfiles/0/1000/img/26/list.jpg" target=_blank>
+					<img title="點圖放大" src="http://www.coco-tea.com/ezfiles/0/1000/img/26/list.jpg" width="100%"></img>
+				</a>
+			</div>
 			<div id="query_div" class="table-responsive"></div>
 			<div class="table-responsive">
 				<table id="result_tbl" class="table Tbl"></table>
@@ -113,20 +114,8 @@
 
 		<script type="text/template" id="table-template">
 			<table id="query_tbl" class="table Tbl tablesorter">
-				<thead>
-					<tr class="active">
-						<th>時間</th>
-						<th>大名</th>
-						<th>項目</th>
-						<th>單價</th>
-						<th>數量</th>
-						<th>甜度</th>
-						<th>溫度</th>
-						<th>備註</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
+				<thead><tr class="active"><th>時間</th><th>大名</th><th>項目</th><th>單價</th><th>數量</th><th>甜度</th><th>溫度</th><th>備註</th></tr></thead>
+				<tbody></tbody>
 			</table>
 		</script>
 
@@ -144,21 +133,11 @@
 		</script>
 
 		<script type="text/template" id="query-result-template">
-			<tr class="Brst">
-				<td class="Brst" colspan=6>
-						<strong>
-							<%= data %>
-						</strong>
-				</td>
-			</tr>
+			<tr class="Brst"><td class="Brst" colspan=6><strong><%= data %></strong></td></tr>
 		</script>
 
 		<script type="text/template" id="tr-sum-template">
-			<tr class="Brst">
-				<td class="Brst" colspan=6>
-					<strong>共 <%= num %> 杯，總額 $<%= price.sum %></strong>
-				</td>
-			</tr>
+			<tr class="Brst"><td class="Brst" colspan=6><strong>累計共 <%= sum.Tquantity %> 杯，總金額 $<%= sum.Tprice %></strong></td></tr>
 		</script>
 
 		<script src="/vendor/jquery/1.11.1/jquery.min.js"></script>

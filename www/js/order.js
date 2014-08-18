@@ -19,7 +19,6 @@
 			dataType: 'json',
 			success: query
 		});
-
 	}
 
 	function render() {
@@ -30,9 +29,9 @@
 		prequery();
 	}
 
-	function query(eason){
+	function query(sql){
 		var i, data_len, trTemplate, tableTemplate,	$queryTbl, queryTemplate, trSumTemplate;
-		data_len = eason.data.length;
+		data_len = sql.data.length;
 		$queryTbl = $('#query_div');
 		tableTemplate = _.template($('#table-template').html());
 		$queryTbl.html(tableTemplate);
@@ -40,17 +39,17 @@
 
 		// Each row data
 		for (i = 0; i < data_len-1; i += 1) {
-			trTemplate = _.template($('#tr-template').html(), {'data': eason.data[i]});
+			trTemplate = _.template($('#tr-template').html(), {'data': sql.data[i]});
 			$queryTbl.find('tbody').append(trTemplate);
 		}
 
 		// Query Result
-		if (eason.result !== "success"){
-			queryTemplate = _.template($('#query-result-template').html(), {'data':eason.result});
+		if (sql.result !== "success"){
+			queryTemplate = _.template($('#query-result-template').html(), {'data':sql.result});
 			$('#result_tbl').append(queryTemplate);
 		}
 		else{
-			trSumTemplate = _.template($('#tr-sum-template').html(), {'price': eason.data[data_len - 1], 'num': data_len-1});
+			trSumTemplate = _.template($('#tr-sum-template').html(), {'sum': sql.data[data_len - 1]});
 			$('#result_tbl').append(trSumTemplate);
 		}
 
@@ -107,20 +106,6 @@
 		return false;
 	}
 
-	function bindEvents() {
-		$('.datepicker').pickadate({
-			format: 'yyyy-mm-dd',
-			formatSubmit: 'yyyy-mm-dd',
-			editable: true
-		});
-		$('#date_begin').change(function () {
-			$form.data('bootstrapValidator').revalidateField('date_begin');
-		});
-		$('#date_end').change(function () {
-			$form.data('bootstrapValidator').revalidateField('date_end');
-		});
-	}
-
 	function preloadResources() {
 		var imageUrls = [
 			'/images/loading.gif',
@@ -150,10 +135,8 @@
 		preloadResources();
 		render();
 		setValidate();
-		bindEvents();
 	}
 
-	// Entry point
 	init();
 
 }(jQuery));
