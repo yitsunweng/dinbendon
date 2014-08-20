@@ -30,6 +30,7 @@
 	}
 
 	function query(sql){
+		console.log('get query result');
 		var i, data_len, trTemplate, tableTemplate,	$queryTbl, queryTemplate, trSumTemplate;
 		data_len = sql.data.length;
 		$queryTbl = $('#query_div');
@@ -44,7 +45,7 @@
 		}
 
 		// Query Result
-		if (sql.result !== "success"){
+		if (sql.result !== "Success"){
 			queryTemplate = _.template($('#query-result-template').html(), {'data':sql.result});
 			$('#result_tbl').append(queryTemplate);
 		}
@@ -68,11 +69,13 @@
 	}
 
 	function show_order(insert) {
+		console.log('get insert result');
 		$('#submit').removeAttr('disabled');
 
 		prequery();
 
 		// Insert Result
+		console.log(insert.result);
 		if (insert.result == "Fail")
 			alert('Insert ' + insert.result);
 	}

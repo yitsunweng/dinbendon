@@ -66,10 +66,10 @@ int main(){
 		fprintf(stdout, "Content-Type: application/json; charset=UTF-8\r\n\r\n");
 		
 		if (orderd() == SUCCESS){
-			DEBUGP("query success\n");
+			DEBUGP("[%s] query success\n", page);
 		}
 		else{
-			DEBUGP("query failed\n");
+			DEBUGP("[%s] query failed\n", page);
 		}
 		return 0;
 	}
@@ -77,37 +77,37 @@ int main(){
 	{
 		json_t *item = NULL, *user = NULL, *price = NULL, *quantity = NULL, *sugar = NULL, *ice = NULL, *note = NULL;
 
-		if(!(json = json_loads(post_payload, 0 , &error)))	DEBUGP("json_loads did not detect JSON payload\n");
+		if(!(json = json_loads(post_payload, 0 , &error)))	DEBUGP("[%s] json_loads did not detect JSON payload\n", page);
 
 		fprintf(stdout, "Content-Type: application/json; charset=UTF-8\r\n\r\n");
 		
 		item = json_object_get(json, "item");
-		if(!json_is_string(item))	DEBUGP("item is not string.[%s]\n", json_string_value(item));
+		if(!json_is_string(item))	DEBUGP("[%s] item is not string.[%s]\n", page, json_string_value(item));
 		
 		user = json_object_get(json, "user");
-		if(!json_is_string(user))	DEBUGP("user is not string.[%s]\n", json_string_value(user));
+		if(!json_is_string(user))	DEBUGP("[%s] user is not string.[%s]\n", page, json_string_value(user));
 		
 		price = json_object_get(json, "price");
-		if(!json_is_string(price))	DEBUGP("price is not string.[%s]\n", json_string_value(quantity));
+		if(!json_is_string(price))	DEBUGP("[%s] price is not string.[%s]\n", page, json_string_value(quantity));
 		
 		quantity = json_object_get(json, "quantity");
-		if(!json_is_string(quantity))	DEBUGP("quantity is not string.[%s]\n", json_string_value(quantity));
+		if(!json_is_string(quantity))	DEBUGP("[%s] quantity is not string.[%s]\n", page, json_string_value(quantity));
 		
 		sugar = json_object_get(json, "sugar");
-		if(!json_is_string(sugar))	DEBUGP("sugar is not string.[%s]\n", json_string_value(sugar));
+		if(!json_is_string(sugar))	DEBUGP("[%s] sugar is not string.[%s]\n", page, json_string_value(sugar));
 		
 		ice = json_object_get(json, "ice");
-		if(!json_is_string(ice))	DEBUGP("ice is not string.[%s]\n", json_string_value(ice));
+		if(!json_is_string(ice))	DEBUGP("[%s] ice is not string.[%s]\n", page, json_string_value(ice));
 		
 		note = json_object_get(json, "note");
-		if(!json_is_string(note))	DEBUGP("note is not string.[%s]\n", json_string_value(note));
+		if(!json_is_string(note))	DEBUGP("[%s] note is not string.[%s]\n", page, json_string_value(note));
 
 		if (order(json_string_value(item), json_string_value(user), json_string_value(price), json_string_value(quantity),
 			json_string_value(sugar), json_string_value(ice), json_string_value(note)) == SUCCESS){
-			DEBUGP("Insert success!\n");
+			DEBUGP("[%s] Insert success!\n", page);
 		}
 		else{
-			DEBUGP("Insert fail!\n");
+			DEBUGP("[%s] Insert fail!\n", page);
 		}
 		return 0;
 		
